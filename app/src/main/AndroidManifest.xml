@@ -19,8 +19,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MathFactsSettingsActivity"
-            android:label="@string/title_activity_math_facts_settings"></activity>
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"></activity>
     </application>
 
 </manifest>

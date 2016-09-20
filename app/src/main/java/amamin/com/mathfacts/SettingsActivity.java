@@ -33,7 +33,7 @@ import java.util.List;
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
  * API Guide</a> for more information on developing a Settings UI.
  */
-public class MathFactsSettingsActivity extends AppCompatPreferenceActivity {
+public class SettingsActivity extends AppCompatPreferenceActivity {
     /**
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.
@@ -60,7 +60,6 @@ public class MathFactsSettingsActivity extends AppCompatPreferenceActivity {
                 // using RingtoneManager.
                 if (TextUtils.isEmpty(stringValue)) {
                     // Empty values correspond to 'silent' (no ringtone).
-                    preference.setSummary(R.string.pref_ringtone_silent);
 
                 } else {
                     Ringtone ringtone = RingtoneManager.getRingtone(
@@ -156,9 +155,7 @@ public class MathFactsSettingsActivity extends AppCompatPreferenceActivity {
      */
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
-                || GeneralPreferenceFragment.class.getName().equals(fragmentName)
-                || DataSyncPreferenceFragment.class.getName().equals(fragmentName)
-                || NotificationPreferenceFragment.class.getName().equals(fragmentName);
+                || MaxNumberFragment.class.getName().equals(fragmentName);
     }
 
     /**
@@ -170,7 +167,6 @@ public class MathFactsSettingsActivity extends AppCompatPreferenceActivity {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_general);
             setHasOptionsMenu(true);
 
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
@@ -185,7 +181,7 @@ public class MathFactsSettingsActivity extends AppCompatPreferenceActivity {
         public boolean onOptionsItemSelected(MenuItem item) {
             int id = item.getItemId();
             if (id == android.R.id.home) {
-                startActivity(new Intent(getActivity(), MathFactsSettingsActivity.class));
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
                 return true;
             }
             return super.onOptionsItemSelected(item);
@@ -201,21 +197,14 @@ public class MathFactsSettingsActivity extends AppCompatPreferenceActivity {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_notification);
             setHasOptionsMenu(true);
-
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
-            bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
         }
 
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {
             int id = item.getItemId();
             if (id == android.R.id.home) {
-                startActivity(new Intent(getActivity(), MathFactsSettingsActivity.class));
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
                 return true;
             }
             return super.onOptionsItemSelected(item);
@@ -231,7 +220,6 @@ public class MathFactsSettingsActivity extends AppCompatPreferenceActivity {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_data_sync);
             setHasOptionsMenu(true);
 
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
@@ -245,7 +233,7 @@ public class MathFactsSettingsActivity extends AppCompatPreferenceActivity {
         public boolean onOptionsItemSelected(MenuItem item) {
             int id = item.getItemId();
             if (id == android.R.id.home) {
-                startActivity(new Intent(getActivity(), MathFactsSettingsActivity.class));
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
                 return true;
             }
             return super.onOptionsItemSelected(item);
