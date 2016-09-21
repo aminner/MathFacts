@@ -6,4 +6,5 @@
     title_activity_settings
     <!-- Example settings for Notifications -->
     <string name="pref_header_notifications">Set Max Number</string>
+    <string name="save_button_text">Save</string>
 </resources>

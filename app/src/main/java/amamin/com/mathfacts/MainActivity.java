@@ -25,6 +25,7 @@ import static java.lang.Integer.parseInt;
 
 public class MainActivity extends AppCompatActivity {
     private int maxNumber = 6;
+    private int maxTime = 6;
     private int correct = 0;
 
     @BindView(R.id.submit)
@@ -60,12 +61,18 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSavedPreferences();
         createTimer();
+    }
+
+    private void getSavedPreferences() {
+        maxNumber = MathFactsUtility.getPreference(this, MathFactsConstants.SP_Max_Addend);
+        maxTime = MathFactsUtility.getPreference(this, MathFactsConstants.SP_Max_Min);
     }
 
     private void createTimer()
     {
-        timer = new CountDownTimer(60000, 1000) {
+        timer = new CountDownTimer(maxTime*10000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 timeRemaining.setText("Timer: " + millisUntilFinished / 1000);

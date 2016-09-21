@@ -1,7 +1,6 @@
 package amamin.com.mathfacts;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.view.LayoutInflater;
@@ -58,16 +57,14 @@ public class MaxTimeFragment extends PreferenceFragment {
     @OnClick(R.id.set_max_min_button)
     public void saveMax()
     {
-        SharedPreferences preferences = context.getSharedPreferences(MathFactsConstants.SharedPreferences, Context.MODE_PRIVATE);
-        preferences.edit().putInt(MathFactsConstants.SP_Max_Min, maxTimeSelectorSeekBar.getProgress()).apply();
+        MathFactsUtility.setPreference(context, MathFactsConstants.SP_Max_Min, maxTimeSelectorSeekBar.getProgress());
         getActivity().onBackPressed();
     }
 
     private void getMax()
     {
         if(maxTimeSelectorSeekBar!=null) {
-            SharedPreferences preferences = context.getSharedPreferences(MathFactsConstants.SharedPreferences, Context.MODE_PRIVATE);
-            maxTimeSelectorSeekBar.setProgress(preferences.getInt(MathFactsConstants.SP_Max_Min, 1));
+            maxTimeSelectorSeekBar.setProgress(MathFactsUtility.getPreference(context, MathFactsConstants.SP_Max_Min)-1);
         }
     }
     private void setListener() {
@@ -76,7 +73,7 @@ public class MaxTimeFragment extends PreferenceFragment {
             maxTimeSelectorSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                    maxValueDisplay.setText(String.valueOf(i));
+                    maxValueDisplay.setText(String.valueOf(i+1));
                 }
 
                 @Override

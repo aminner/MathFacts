@@ -1,7 +1,6 @@
 package amamin.com.mathfacts;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.view.LayoutInflater;
@@ -13,6 +12,8 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static amamin.com.mathfacts.MathFactsConstants.SP_Max_Addend;
 
 public class MaxNumberFragment extends PreferenceFragment {
     @BindView(R.id.max_number_picker)
@@ -56,16 +57,14 @@ public class MaxNumberFragment extends PreferenceFragment {
     @OnClick(R.id.set_max_button)
     public void saveMax()
     {
-        SharedPreferences preferences = context.getSharedPreferences(MathFactsConstants.SharedPreferences, Context.MODE_PRIVATE);
-        preferences.edit().putInt(MathFactsConstants.SP_Max_Addend, maxSelectorSeekBar.getRight()).apply();
+        MathFactsUtility.setPreference(context, SP_Max_Addend, maxSelectorSeekBar.getProgress()+1);
         getActivity().onBackPressed();
     }
 
     private void getMax()
     {
         if(maxSelectorSeekBar!=null) {
-            SharedPreferences preferences = context.getSharedPreferences(MathFactsConstants.SharedPreferences, Context.MODE_PRIVATE);
-            maxSelectorSeekBar.setProgress(preferences.getInt(MathFactsConstants.SP_Max_Addend, 1));
+            maxSelectorSeekBar.setProgress(MathFactsUtility.getPreference(context, SP_Max_Addend)-1);
         }
     }
     private void setListener() {
@@ -74,7 +73,7 @@ public class MaxNumberFragment extends PreferenceFragment {
             maxSelectorSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                    maxValueDisplay.setText(String.valueOf(i));
+                    maxValueDisplay.setText(String.valueOf(i+1));
                 }
 
                 @Override
