@@ -154,8 +154,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      * Make sure to deny any unknown fragments here.
      */
     protected boolean isValidFragment(String fragmentName) {
-        return PreferenceFragment.class.getName().equals(fragmentName)
-                || MaxNumberFragment.class.getName().equals(fragmentName);
+        return MaxNumberFragment.class.getName().equals(fragmentName) |
+                MaxTimeFragment.class.getName().equals(fragmentName);
     }
 
     /**

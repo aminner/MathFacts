@@ -4,12 +4,11 @@
     android:layout_height="match_parent"
     tools:context="amamin.com.mathfacts.MaxNumberFragment">
 
-
     <TextView
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/max_value"
+        android:id="@+id/max_min_value"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:textSize="36sp"
         android:textAlignment="center"
@@ -22,20 +21,19 @@
     <SeekBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/max_number_picker"
-        android:max="9"
-        android:layout_below="@+id/max_value"
+        android:id="@+id/max_min_picker"
+        android:layout_below="@+id/max_min_value"
         android:layout_alignParentStart="true"
         style="@android:style/Widget.Material.SeekBar"
-        android:layout_marginBottom="25dp" />
+        android:layout_marginBottom="25dp"
+        android:max="5" />
 
     <Button
-        android:text="Set Max"
+        android:text="Save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/set_max_button"
-        style="@android:style/Widget.Material.Button.Colored"
-        android:layout_below="@+id/max_number_picker"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true" />
+        android:id="@+id/set_max_min_button"
+        android:layout_below="@+id/max_min_picker"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

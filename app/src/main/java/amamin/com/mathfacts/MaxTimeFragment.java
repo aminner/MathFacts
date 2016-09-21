@@ -14,15 +14,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MaxNumberFragment extends PreferenceFragment {
-    @BindView(R.id.max_number_picker)
-    SeekBar maxSelectorSeekBar;
+public class MaxTimeFragment extends PreferenceFragment {
+    @BindView(R.id.max_min_picker)
+    SeekBar maxTimeSelectorSeekBar;
 
-    @BindView(R.id.max_value)
+    @BindView(R.id.max_min_value)
     TextView maxValueDisplay;
+
     private Context context;
 
-    public MaxNumberFragment() {
+    public MaxTimeFragment() {
         // Required empty public constructor
     }
 
@@ -51,27 +52,28 @@ public class MaxNumberFragment extends PreferenceFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_max_number, container, false);
+        return inflater.inflate(R.layout.fragment_max_time, container, false);
     }
-    @OnClick(R.id.set_max_button)
+
+    @OnClick(R.id.set_max_min_button)
     public void saveMax()
     {
         SharedPreferences preferences = context.getSharedPreferences(MathFactsConstants.SharedPreferences, Context.MODE_PRIVATE);
-        preferences.edit().putInt(MathFactsConstants.SP_Max_Addend, maxSelectorSeekBar.getRight()).apply();
+        preferences.edit().putInt(MathFactsConstants.SP_Max_Min, maxTimeSelectorSeekBar.getProgress()).apply();
         getActivity().onBackPressed();
     }
 
     private void getMax()
     {
-        if(maxSelectorSeekBar!=null) {
+        if(maxTimeSelectorSeekBar!=null) {
             SharedPreferences preferences = context.getSharedPreferences(MathFactsConstants.SharedPreferences, Context.MODE_PRIVATE);
-            maxSelectorSeekBar.setProgress(preferences.getInt(MathFactsConstants.SP_Max_Addend, 1));
+            maxTimeSelectorSeekBar.setProgress(preferences.getInt(MathFactsConstants.SP_Max_Min, 1));
         }
     }
     private void setListener() {
-        if(maxSelectorSeekBar!=null)
+        if(maxTimeSelectorSeekBar!=null)
         {
-            maxSelectorSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            maxTimeSelectorSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                     maxValueDisplay.setText(String.valueOf(i));

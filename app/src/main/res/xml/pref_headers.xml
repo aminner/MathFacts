@@ -3,7 +3,11 @@
     <!-- These settings headers are only used on tablets. -->
 
     <header
-        android:fragment="amamin.com.mathfacts.MathFactsSettingsActivity$MaxNumberFragment"
+        android:fragment="amamin.com.mathfacts.MaxNumberFragment"
         android:icon="@drawable/ic_info_black_24dp"
-        android:title="@string/pref_max_number_fragment" />
+        android:title="Change Max Number for Addends" />
+    <header
+        android:fragment="amamin.com.mathfacts.MaxTimeFragment"
+        android:icon="@drawable/ic_info_black_24dp"
+        android:title="Set Timer Time" />
 </preference-headers>
