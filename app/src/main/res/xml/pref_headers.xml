@@ -10,4 +10,9 @@
         android:fragment="amamin.com.mathfacts.MaxTimeFragment"
         android:icon="@drawable/ic_info_black_24dp"
         android:title="Set Timer Time" />
+
+    <header
+        android:fragment="amamin.com.mathfacts.FactsTypeFragment"
+        android:icon ="@drawable/ic_info_black_24dp"
+        android:title = "Set Problem Type" />
 </preference-headers>

@@ -1,13 +1,14 @@
 package amamin.com.mathfacts;
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,8 +57,14 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.gameOver)
     RelativeLayout rl_gameOver;
 
+    @BindView(R.id.tv_operator)
+    TextView tv_operator;
+
+
     private CountDownTimer timer;
     private final int REQ_CODE_SPEECH_INPUT = 100;
+    private MathFactsType factType;
+    private int solution;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +80,15 @@ public class MainActivity extends AppCompatActivity {
     private void getSavedPreferences() {
         maxNumber = MathFactsUtility.getPreference(this, MathFactsConstants.SP_Max_Addend);
         maxTime = MathFactsUtility.getPreference(this, MathFactsConstants.SP_Max_Min);
+        factType = MathFactsType.values()[MathFactsUtility.getPreference(this, MathFactsConstants.SP_Fact_Type, MathFactsType.ADDITION.ordinal())];
     }
 
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        Log.d(this.getLocalClassName(), "onResume");
+    }
     private void createTimer()
     {
         timer = new CountDownTimer((maxTime*30000), 1000) {
@@ -98,8 +112,34 @@ public class MainActivity extends AppCompatActivity {
     private void setProblem()
     {
         Random r = new Random();
-        tv_addend1.setText(String.valueOf(r.nextInt(maxNumber)));
-        tv_addend2.setText(String.valueOf(r.nextInt(maxNumber)));
+        int num1 = r.nextInt(maxNumber);
+        int num2 = r.nextInt(maxNumber);
+        solution = 0;
+
+        switch(factType)
+        {
+            case ADDITION:
+                solution = num1 + num2;
+                break;
+            case SUBTRACTION:
+                solution = num1;
+                num1 = num2 + solution;
+                break;
+            case MULTIPLICATION:
+                solution = num1*num2;
+                break;
+            case DIVISION:
+                if(num1 >= num2) {
+                    solution = num2;
+                    num2 = num1 * solution;
+                } else {
+                    solution = num1;
+                    num1 = num2 * solution;
+                }
+        }
+        tv_addend1.setText(String.valueOf(num1));
+        tv_addend2.setText(String.valueOf(num2));
+        tv_operator.setText(factType.getOperator());
         tv_answer.setText("");
         promptSpeechInput();
     }
@@ -151,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.submit)
     public void checkAnswer()
     {
-        if(parseInt(tv_addend1.getText().toString())+ parseInt(tv_addend2.getText().toString()) == parseInt(tv_answer.getText().toString())) {
+        if(solution == parseInt(tv_answer.getText().toString())) {
             if(correct == 0)
             {
                 timer.start();
@@ -170,14 +210,12 @@ public class MainActivity extends AppCompatActivity {
      * Showing google speech input dialog
      * */
     private void promptSpeechInput() {
+        SpeechRecognizer sr = SpeechRecognizer.createSpeechRecognizer(this);
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-        try {
-            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
-        } catch (ActivityNotFoundException a) {
-        }
+        sr.startListening(intent);
     }
 
     /**

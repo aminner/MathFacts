@@ -155,7 +155,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      */
     protected boolean isValidFragment(String fragmentName) {
         return MaxNumberFragment.class.getName().equals(fragmentName) |
-                MaxTimeFragment.class.getName().equals(fragmentName);
+                MaxTimeFragment.class.getName().equals(fragmentName) |
+                FactsTypeFragment.class.getName().equals(fragmentName);
     }
 
     /**
